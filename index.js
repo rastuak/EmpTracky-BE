@@ -9,14 +9,14 @@ const employeeRoute = require("./routes/employee.route");
 
 dotenv.config();
 
-const port = 8000; // Isi nomor port di sini;
+const port = 8000;
 const app = express();
 
 const cors = require("cors");
 
 app.use(cors({
-  origin : ["http://localhost:5173"],
-  methods : ["POST", "GET", "PUT", "DELETE"],
+  origin: ["http://localhost:5173"],
+  methods: ["POST", "GET", "PUT", "DELETE"],
   credentials: true,
 }));
 
