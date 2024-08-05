@@ -6,7 +6,7 @@ exports.register = async (req, res) => {
   try {
     const userResult = await pg.query('SELECT * FROM users WHERE username = $1 OR email = $2', [username, email]);
     if (userResult.rows.length > 0) {
-      return res.status(300).json({  msg: 'Username or email already exists'  });
+      return res.status(303).json('Username or email already exists');
     }
     const salt = await bcrypt.genSalt(10);
     const hashedPassword = await bcrypt.hash(password, salt);
@@ -17,7 +17,7 @@ exports.register = async (req, res) => {
     res.status(201).json(newUserResult.rows[0]);
   } catch (err) {
     console.error(err.message);
-    res.status(500).json({ msg: 'Server error' });
+    res.status(500).json('Server error');
   }
 };
 
@@ -26,12 +26,12 @@ exports.login = async (req, res) => {
   try {
     const userResult = await pg.query('SELECT * FROM users WHERE username = $1', [username]);
     if (userResult.rows.length === 0) {
-      return res.status(300).json({ msg: 'Username not registered' });
+      return res.status(300).json('Username not registered');
     }
     const user = userResult.rows[0];
     const isMatch = await bcrypt.compare(password, user.password);
     if (!isMatch) {
-      return res.status(301).json({ msg: 'Invalid credentials' });
+      return res.status(301).json('Invalid credentials');
     }
     res.cookie('uuid', user.id)
     res.status(201).json({
@@ -43,7 +43,7 @@ exports.login = async (req, res) => {
     });
   } catch (err) {
     console.error(err.message);
-    res.status(500).json({ msg: 'Server error' });
+    res.status(500).json('Server error');
   }
 };
 

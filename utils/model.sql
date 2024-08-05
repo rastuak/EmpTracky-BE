@@ -20,5 +20,6 @@ create table if not exists users (
     company text,
     division text,
     position text,
-    gender text
+    gender text,
+    phone text
 );
